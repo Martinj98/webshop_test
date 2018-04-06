@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="css/product.css">
+</head>
+<style>
+footer {
+	background-color: #403042;
+	color: lightsteelblue;
+}
+.topnav .floatref{
+float:right;}
+#textfield {
+	width: 70%;
+}
+.topnav {
+	overflow: hidden;
+	background-color: #403042;
+}
+
+.topnav a {
+	float: left;
+	display: block;
+	color: lightsteelblue;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+	font-size: 17px;
+}
+
+.topnav a:hover {
+	border-bottom: 3px solid white;
+	background-color: #403042;
+	color: white;
+}
+
+.topnav a.active {
+	background-color: #403042;
+	color: lightsteelblue;
+}
+.category:hover {
+	border-bottom: 3px solid white;
+	background-color: #403042;
+	color: white;
+}
+
+.category.active {
+	background-color: #403042;
+	color: lightsteelblue;
+}
+.category {
+	float: left;
+	display: block;
+	color: lightsteelblue;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+	font-size: 17px;
+}
+
+.searchhead {
+	background-color: #4c394e;
+}
+
+.searchhead input[type=text] {
+	padding: 6px;
+	font-size: 17px;
+	border-radius: 8px;
+}
+
+.searchhead .search-container button {
+	background-color: #4c394e;
+	padding: 6px 10px;
+	margin-right: 16px;
+	background: #ddd;
+	font-size: 17px;
+	border: none;
+	cursor: pointer;
+}
+
+.searchhead .search-container button:hover {
+	background: #ccc;
+}
+
+@media screen and (max-width: 600px) {
+	.topnav .search-container {
+		float: none;
+	}
+	.topnav a, .topnav input[type=text], .topnav .search-container button {
+		float: none;
+		display: block;
+		text-align: left;
+		width: 100%;
+		margin: 0;
+		padding: 14px;
+	}
+	.topnav input[type=text] {
+		border: 1px solid #ccc;
+	}
+}</style>
+<body>
+
+	<div class="topnav">
+		<a class="active" href="/webshop/Index.html">Home</a> <a href="#about">About</a>
+		<a href="#contact">Contact</a>
+		<a class=floatref id="logout " onclick="logout()">Uitloggen</a>
+		<a class=floatref href="/webshop/Klant.html">Mijn Account</a>
+		<a class=floatref href="/webshop/Cart.html">Mijn Winkelmandje</a>
+			<div class=category data-productid=1>Muziek</div>
+		<div class=category data-productid=2>Kantoorartikelen</div>
+		<div class=category data-productid=3>Electronica</div>
+		<div class=category data-productid=4>Games</div>
+		<div class=category data-productid=5>Films</div>
+	</div>
+	<div class="searchhead">
+		<div class="search-container">
+		<form>
+		<a href="/webshop/Index.html">
+		<img src=/webshop/imgs/logo.png height=50px/></a>&emsp;&emsp;
+				<input type="text" id=textfield placeholder="Search.." name="search" width=5px>
+					<input type=button id=search value=Search style= font-size:22px;/>
+			</form>
+		</div>
+		</div>
+<div id="productList">
+ <h1>Mijn Winkelmandje</h1>
+  <table id="product">
+ <tr>
+ 	<th>Product&emsp;</th>
+    <th>Naam&emsp;</th>
+    <th>Omschrijving&emsp;</th>
+    <th>Prijs&emsp;</th>
+    <th>Fabrikant&emsp;</th>
+    <th>Aantal&emsp;</th>
+    <th>Acties&emsp;</th>
+  </tr>
+ </table>
+ </div>
+ 	<br>
+	<footer>
+		<br>
+		<br>
+		<center>
+			<p>Design by: Huig</p><br>
+		</center>
+	</footer>
+<script src="https://code.jquery.com/jquery-3.2.0.min.js"></script>
+<script>
+function loadproduct(){
+		var user=window.sessionStorage.getItem("user");
+		var totaal=0;
+		if (user===null){
+			window.location.href = "/webshop/login.html";
+		}else{
+		$.getJSON("/webshop/rest/product/basket/"+user, function(data){
+			$.each(data, function(i, product){
+				$("#product").append(
+						"<tr><td><center><img src=imgs/Producten/"+product.ID+".jpg id=productimg width=320 data-productid="+product.ID+"/></center>&emsp;<br></td>"
+				+"<td><b> <div id=productlink data-productid="+product.ID+">"+product.Naam+"</div></b>&emsp;<br></td>"
+				+"<td>"+product.Omschrijving+"&emsp;<br></td>"
+				+"<td>&euro;"+Math.round(product.Prijs*product.Aantal*100)/100+"&emsp;<br></td>"
+				+"<td>"+product.Fabrikant+"&emsp;<br></td>"+"<td><b>"+product.Aantal+"</b><br></td><td><input type=button value='Verwijder uit mandje' data-custid="+user+" data-prodid="+product.ID+"></td></tr>");
+				totaal+=Math.round(product.Prijs*product.Aantal*100)/100			
+			});
+			$('#product').append("<tr><td></td><td></td><td></td><td></td><td><b>Totaalprijs</b></td><td><b>&euro;"+totaal+"</b></td><td></td></tr>");
+	});}
+}
+</script>
+<script>loadproduct()
+document.title="Mijn Winkelmandje"
+</script>
+<script>
+$('#product').on('click','#productlink',function(){
+    var value = $(this).attr('data-productid');
+	  sessionStorage.setItem("id", value);
+	  window.location.href = "/webshop/Product.html";
+	});
+$('#product').on('click','#productimg',function(){
+    var value = $(this).attr('data-productid');
+	  sessionStorage.setItem("id", value);
+	  window.location.href = "/webshop/Product.html";
+	});
+</script>
+<script>
+function logout(){
+	alert("U wordt nu uitgelogd.")
+	sessionStorage.removeItem('user');
+	window.location.href = "/webshop/Index.html";
+	
+}
+</script>
+	<script>
+	$( "#search" ).click(function() {
+		  var value=$('#textfield').val();
+		  var target=0;
+		 if (value!=null&&value!=""){
+			 $.getJSON("/webshop/rest/product/getid/"+value, function(product){
+			 sessionStorage.setItem("id", product.ID);
+			 window.location.href = "/webshop/Product.html";
+		 });}
+		 else{
+		  window.location.href = "/webshop/Error.html";
+		}});
+	
+	$( ".category" ).click(function() {
+		  var value = $(this).attr('data-productid');
+		  sessionStorage.setItem("catid", value);
+		  window.location.href = "/webshop/Categorie.html";
+		});
+</script>
+<script>
+$("#product").on('click', 'input[type=button]', function () {
+		var custid=window.sessionStorage.getItem("user");
+	   var seriesid = $(this).data('prodid');
+	   var uri = "/webshop/rest/product/basket/delete/" + custid+"/"+seriesid;
+	   $.ajax(uri, { 
+	       type: "delete", 
+	       success: function(response) {
+	           $("#response").text("Het product is uit uw winkelmandje verwijderd.");
+	           alert("Het product is uit uw winkelmandje verwijderd.");
+	           location.reload();
+	       },
+	       error: function(response) {
+	           $("#response").text("Er is iets misgegaan.");
+	       }
+	   });
+	});
+</script>
+
+</body>
+</html>

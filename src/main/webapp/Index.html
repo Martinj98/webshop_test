@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="css/product.css">
+</head>
+<style>
+footer {
+	background-color: #403042;
+	color: lightsteelblue;
+}
+.topnav .floatref{
+float:right;}
+#textfield {
+	width: 70%;
+}
+.topnav {
+	overflow: hidden;
+	background-color: #403042;
+}
+
+.topnav a {
+	float: left;
+	display: block;
+	color: lightsteelblue;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+	font-size: 17px;
+}
+
+.category:hover {
+	border-bottom: 3px solid white;
+	background-color: #403042;
+	color: white;
+}
+
+.category.active {
+	background-color: #403042;
+	color: lightsteelblue;
+}
+.category {
+	float: left;
+	display: block;
+	color: lightsteelblue;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+	font-size: 17px;
+}
+
+.topnav a:hover {
+	border-bottom: 3px solid white;
+	background-color: #403042;
+	color: white;
+}
+
+.topnav a.active {
+	background-color: #403042;
+	color: lightsteelblue;
+}
+
+.searchhead {
+	background-color: #4c394e;
+}
+
+.searchhead input[type=text] {
+	padding: 6px;
+	font-size: 17px;
+	border-radius: 8px;
+}
+
+.searchhead .search-container button {
+	background-color: #4c394e;
+	padding: 6px 10px;
+	margin-right: 16px;
+	background: #ddd;
+	font-size: 17px;
+	border: none;
+	cursor: pointer;
+}
+
+.searchhead .search-container button:hover {
+	background: #ccc;
+}
+
+@media screen and (max-width: 600px) {
+	.topnav .search-container {
+		float: none;
+	}
+	.topnav a, .topnav input[type=text], .topnav .search-container button {
+		float: none;
+		display: block;
+		text-align: left;
+		width: 100%;
+		margin: 0;
+		padding: 14px;
+	}
+	.topnav input[type=text] {
+		border: 1px solid #ccc;
+	}
+}</style>
+<body>
+
+	<div class="topnav">
+		<a class="active" href="/webshop/Index.html">Home</a> <a href="#about">About</a>
+		<a href="#contact">Contact</a>
+		<a class=floatref id="logout " onclick="logout()">Uitloggen</a>
+		<a class=floatref href="/webshop/Klant.html">Mijn Account</a>
+		<a class=floatref href="/webshop/Cart.html">Mijn Winkelmandje</a>
+		<div class=category data-productid=1>Muziek</div>
+		<div class=category data-productid=2>Kantoorartikelen</div>
+		<div class=category data-productid=3>Electronica</div>
+		<div class=category data-productid=4>Games</div>
+		<div class=category data-productid=5>Films</div>
+	</div>
+	<div class="searchhead">
+		<div class="search-container">
+		<form>
+		<a href="/webshop/Index.html">
+		<img src=/webshop/imgs/logo.png height=50px/></a>&emsp;&emsp;
+				<input type="text" id=textfield placeholder="Search.." name="search" width=5px>
+					<input type=button id=search value=Search style= font-size:22px;/>
+			</form>
+		</div>
+		</div>
+<div id="productList">
+<h1>Aanbiedingen</h1>
+ <table id="sales">
+ <tr>
+ 	<th>Product&emsp;</th>
+    <th>Naam&emsp;</th>
+    <th>Omschrijving&emsp;</th>
+    <th>Prijs&emsp;</th>
+    <th>Fabrikant&emsp;</th>
+  </tr>
+ </table>
+ <h1>Nieuwste Producten</h1>
+  <table id="product">
+ <tr>
+ 	<th>Product&emsp;</th>
+    <th>Naam&emsp;</th>
+    <th>Omschrijving&emsp;</th>
+    <th>Prijs&emsp;</th>
+    <th>Fabrikant&emsp;</th>
+  </tr>
+ </table>
+ </div>
+ 	<br>
+	<footer>
+		<br>
+		<br>
+		<center>
+			<p>Design by: Huig</p><br>
+		</center>
+	</footer>
+<script src="https://code.jquery.com/jquery-3.2.0.min.js"></script>
+<script>
+function loadsales(){
+	var user=window.sessionStorage.getItem("user");
+	$.getJSON("/webshop/rest/product/sales", function(data){
+		$.each(data, function(i, product){
+			$("#sales").append(
+					"<tr><td><center><img src=imgs/Producten/"+product.ID+".jpg id=productimg width=320 data-productid="+product.ID+" /></center>&emsp;<br></td>"
+			+"<td><b> <div id=productlink data-productid="+product.ID+">"+product.Naam+"</div></b>&emsp;<br></td>"
+			+"<td>"+product.Omschrijving+"&emsp;<br></td>"
+			+"<td><s>&euro;"+product.Prijs+"</s><b>&euro;"+product.NieuwePrijs+"&emsp;<br></td>"
+			+"<td>"+product.Fabrikant+"&emsp;<br></td></tr>");
+		});
+
+});
+}
+function loadproduct(){
+		var user=window.sessionStorage.getItem("user");
+		$.getJSON("/webshop/rest/product", function(data){
+			$.each(data, function(i, product){
+				$("#product").append(
+						"<tr><td><center><img src=imgs/Producten/"+product.ID+".jpg id=productimg width=320 data-productid="+product.ID+" /></center>&emsp;<br></td>"
+				+"<td><b> <div id=productlink data-productid="+product.ID+">"+product.Naam+"</div></b>&emsp;<br></td>"
+				+"<td>"+product.Omschrijving+"&emsp;<br></td>"
+				+"<td>&euro;"+product.Prijs+"&emsp;<br></td>"
+				+"<td>"+product.Fabrikant+"&emsp;<br></td></tr>");
+			});
+
+	});
+}
+</script>
+<script>loadproduct()
+loadsales()
+document.title="Welkom bij onze webshop!"
+</script>
+<script>
+$('#product').on('click','#productlink',function(){
+    var value = $(this).attr('data-productid');
+	  sessionStorage.setItem("id", value);
+	  window.location.href = "/webshop/Product.html";
+	});
+$('#product').on('click','#productimg',function(){
+    var value = $(this).attr('data-productid');
+	  sessionStorage.setItem("id", value);
+	  window.location.href = "/webshop/Product.html";
+	});
+$('#sales').on('click','#productlink',function(){
+    var value = $(this).attr('data-productid');
+	  sessionStorage.setItem("id", value);
+	  window.location.href = "/webshop/Product.html";
+	});
+$('#sales').on('click','#productimg',function(){
+    var value = $(this).attr('data-productid');
+	  sessionStorage.setItem("id", value);
+	  window.location.href = "/webshop/Product.html";
+	});
+$( ".category" ).click(function() {
+	  var value = $(this).attr('data-productid');
+	  sessionStorage.setItem("catid", value);
+	  window.location.href = "/webshop/Categorie.html";
+	});
+</script>
+<script>
+function logout(){
+	alert("U wordt nu uitgelogd.")
+	sessionStorage.removeItem('user');
+	location.reload();
+	
+}
+</script>
+	<script>
+	$( "#search" ).click(function() {
+		  var value=$('#textfield').val();
+		  var target=0;
+		 if (value!=null&&value!=""){
+			 $.getJSON("/webshop/rest/product/getid/"+value, function(product){
+			 sessionStorage.setItem("id", product.ID);
+			 window.location.href = "/webshop/Product.html";
+		 });}
+		 else{
+		  window.location.href = "/webshop/Error.html";
+		}});
+</script>
+
+</body>
+</html>

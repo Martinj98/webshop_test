@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="css/product.css">
+<title>HP Pavilion Power-15</title>
+</head>
+<style>
+footer {
+	background-color: #403042;
+	color: lightsteelblue;
+}
+
+.topnav .floatref {
+	float: right;
+}
+
+#textfield {
+	width: 70%;
+}
+
+#details {
+	width: 76%;
+	height: auto;
+	padding: 10px;
+	border: 5px solid gray;
+	margin: 0;
+}
+
+.wrapper {
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	grid-gap: 10px;
+	grid-auto-rows: minmax(100px, auto);
+}
+
+#productimage {
+	grid-column: 2/5;
+	grid-row: 1;
+}
+
+#details {
+	grid-column: 2/5;
+	grid-row: 2;
+}
+
+.topnav {
+	overflow: hidden;
+	background-color: #403042;
+}
+
+.topnav a {
+	float: left;
+	display: block;
+	color: lightsteelblue;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+	font-size: 17px;
+}
+
+.topnav a:hover {
+	border-bottom: 3px solid white;
+	background-color: #403042;
+	color: white;
+}
+
+.topnav a.active {
+	background-color: #403042;
+	color: lightsteelblue;
+}
+.category:hover {
+	border-bottom: 3px solid white;
+	background-color: #403042;
+	color: white;
+}
+
+.category.active {
+	background-color: #403042;
+	color: lightsteelblue;
+}
+.category {
+	float: left;
+	display: block;
+	color: lightsteelblue;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+	font-size: 17px;
+}
+
+.searchhead {
+	background-color: #4c394e;
+}
+
+.searchhead input[type=text] {
+	padding: 6px;
+	font-size: 17px;
+	border-radius: 8px;
+}
+
+.searchhead .search-container button {
+	background-color: #4c394e;
+	padding: 6px 10px;
+	margin-right: 16px;
+	background: #ddd;
+	font-size: 17px;
+	border: none;
+	cursor: pointer;
+}
+
+.searchhead .search-container button:hover {
+	background: #ccc;
+}
+
+@media screen and (max-width: 600px) {
+	.topnav .search-container {
+		float: none;
+	}
+	.topnav a, .topnav input[type=text], .topnav .search-container button {
+		float: none;
+		display: block;
+		text-align: left;
+		width: 100%;
+		margin: 0;
+		padding: 14px;
+	}
+	.topnav input[type=text] {
+		border: 1px solid #ccc;
+	}
+}
+</style>
+<body>
+	<div class="topnav">
+		<a class="active" href="/webshop/Index.html">Home</a> <a href="#about">About</a>
+		<a href="#contact">Contact</a> <a class=floatref id="logout " onclick="logout()">Uitloggen</a>
+		<a class=floatref href="/webshop/Klant.html">Mijn Account</a> 
+		<a class=floatref href="/webshop/Cart.html">Mijn Winkelmandje</a> 
+			<div class=category data-productid=1>Muziek</div>
+		<div class=category data-productid=2>Kantoorartikelen</div>
+		<div class=category data-productid=3>Electronica</div>
+		<div class=category data-productid=4>Games</div>
+		<div class=category data-productid=5>Films</div>
+	</div>
+	<div class="searchhead">
+		<div class="search-container">
+			<form>
+				<a href="/webshop/Index.html"> <img src=/webshop/imgs/logo.png
+					height=50px /></a>&emsp;&emsp; <input type="text" id=textfield
+					placeholder="Search.." name="search" width=5px> <input
+					type=button id=search value=Search style= font-size:22px;/>
+			</form>
+		</div>
+	</div>
+	<h1>Mijn Account</h1>
+	<br>
+	<div class="wrapper">
+	<div id="productimage"></div>
+		<div id="details"></div>
+	</div>
+	<br>
+	<footer>
+		<br> <br>
+		<center>
+			<p>Design by: Huig</p>
+			<br>
+		</center>
+	</footer>
+</body>
+<script src="https://code.jquery.com/jquery-3.2.0.min.js"></script>
+<script>
+	function loadproduct(){
+		var user=window.sessionStorage.getItem("user");
+		if (user===null){
+			window.location.href = "/webshop/login.html";
+		}else{
+		var productid=sessionStorage.getItem("id");
+		$.getJSON("/webshop/rest/Klant/"+user, function(Klant){
+			 	document.title=Klant.naam;
+				var text1="<img src=imgs/Klanten/"+Klant.id+".jpg width=300px height=300px border=2/><h2>"+Klant.naam+"</h2>" 
+				var text2="<h2>Uw gegevens</h2><hr><br>Geboortedatum: "+Klant.gebdatum+"<br>Telefoonnummer: "+Klant.tel+"<br>Emailadres: "+Klant.email+"<br> Factuuradres: "+Klant.factuurstraat+" "+Klant.factuurnummer+" <br>Registratiedatum: "+Klant.opendatum
+			 	$("#productimage").html(text1)
+				$("#details").html(text2);
+
+		});
+	}}
+</script>
+<script>loadproduct()</script>
+<script>
+function logout(){
+	alert("U wordt nu uitgelogd.")
+	sessionStorage.removeItem('user');
+	window.location.href = "/webshop/Index.html";
+	
+}
+</script>
+<script>
+$( "#search" ).click(function() {
+	  var value=$('#textfield').val();
+	  var target=0;
+	 if (value!=null&&value!=""){
+		 $.getJSON("/webshop/rest/product/getid/"+value, function(product){
+		 sessionStorage.setItem("id", product.ID);
+		 window.location.href = "/webshop/Product.html";
+	 });}
+	 else{
+	  window.location.href = "/webshop/Error.html";
+	}});
+	
+$( ".category" ).click(function() {
+	  var value = $(this).attr('data-productid');
+	  sessionStorage.setItem("catid", value);
+	  window.location.href = "/webshop/Categorie.html";
+	});
+</script>

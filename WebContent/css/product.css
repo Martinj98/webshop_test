@@ -1,0 +1,54 @@
+body{
+	font-family: Roboto, sans-serif;
+}
+
+ul {
+	width: 100%;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: Red;
+}
+li {
+    float: left;
+}
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+input[type=button] {
+  border-radius: 5px;
+  padding: 15px 25px;
+  font-size: 14px;
+  text-decoration: none;
+  margin: 20px;
+  color: #fff;
+  position: relative;
+  display: inline-block;
+  background-color: #2196F3;
+}
+
+input[type=button]:hover {
+  border-radius: 5px;
+  padding: 15px 25px;
+  font-size: 14px;
+  text-decoration: none;
+  margin: 20px;
+  color: #fff;
+  position: relative;
+  display: inline-block;
+  background-color: #10bbd5;
+}
+
+/* Change the link color to #111 (black) on hover */
+h1 { font-family: Roboto, sans-serif; background-color: #2196F3; margin: 0 0 10px; font-size: 40px; font-weight: bold; color:white;}
+#details{
+	 width: 320px;
+    padding: 10px;
+    border: 5px solid gray;
+    margin: 0;
+}
