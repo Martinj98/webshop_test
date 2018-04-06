@@ -19,7 +19,7 @@ public static void main(String[] args){
 	public void testfail() {
 //        MyUnit myUnit = new MyUnit();
 
-        String result = ("onetwo");
+        String result = ("onetwoe");
 
        assertEquals("onetwo", result);
 
