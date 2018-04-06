@@ -21,7 +21,7 @@ public static void main(String[] args){
 
         String result = ("onetwo");
 
-       assertEquals("onetwo", result);
+       assertEquals("oneetwo", result);
 
     }
 	@Test
