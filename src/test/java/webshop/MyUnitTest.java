@@ -1,36 +1,42 @@
 package webshop;
-import org.junit.Test;
+
 import junit.framework.*;
 import org.junit.*;
-
-import static org.hamcrest.CoreMatchers.equalTo;
+import org.junit.Test;
+//import static org.hamcrest.CoreMatchers.equalTo;
 //
+import webshop.domain.DomainController;
+
 // FIXME this test is running in jenkins under the name of Junit demo
 // It doesnt have a scheduled built into it though
 //
+//TODO Use this for testing ADMINPRODUCTRESOURCE
 
-public class MyUnitTest extends TestCase{
-    
-public static void main(String[] args){
-	System.out.print("TESTING MAIN TEST");
-}
-    
+public class MyUnitTest extends TestCase {
+	DomainController con = new DomainController(); 
+	
+	@Before
+	protected void setUp() {
+//Sets up the fixture, for example, open a network connection.	
+	}
+	@After
+	protected void tearDown() {
+//Tears down the fixture, for example, close a network connection.
+	}
+
 	@Test
 	public void testfail() {
-//        MyUnit myUnit = new MyUnit();
+		String result = ("onetwo");
+		System.out.print(con.getKlantByID(1));
+		
+		assertEquals("onetwo", result);
+	
+	}
 
-        String result = ("onetwo");
-
-       assertEquals("onetwo", result);
-
-    }
 	@Test
 	public void testsucces() {
-//        MyUnit myUnit = new MyUnit();
+		String result = ("onetwo");
+		assertEquals("onetwo", result);
+	}
 
-        String result = ("onetwo");
-
-       assertEquals("onetwo", result);
-
-    }
 }

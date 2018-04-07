@@ -30,7 +30,7 @@ public static void main(String[] args){
 
         String result = ("onetwo");
 
-       assertEquals("oneetwo", result);
+       assertEquals("onetwo", result);
 
     }
 }
