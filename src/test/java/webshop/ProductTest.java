@@ -1,58 +1,43 @@
 package webshop;
 
 import junit.framework.*;
-import org.junit.*;
 import org.junit.Test;
 
 import webshop.domain.Product;
-//import static org.hamcrest.CoreMatchers.equalTo;
-//
-import webshop.domain.DomainController;
-
-// FIXME this test is running in jenkins under the name of Junit demo
-// It doesnt have a scheduled built into it though
-//
-//TODO Use this for testing ADMINPRODUCTRESOURCE
 
 public class ProductTest extends TestCase {
-	//DomainController con = new DomainController(); 
 	Product p = new Product("", null, 0, 0, "", "");
 	
 	@Test
 	public void testId() {
 		p.setId(11);
 		int result= p.getId();
-		assertEquals("auto", result,121);
+		assertEquals("id",11,result);
 	}
 
 	@Test
 	public void testNaam() {
 		p.setNaam("auto");
 		String result= p.getNaam();
-		assertEquals("auto", result);
+		assertEquals("naam","auto", result);
 	}
-
-//	@Test
-//	public void testnaam() {
-//		p.setNaam("auto");
-//		String result= p.getNaam();
-//		assertEquals("auto", result);
-//	}
-//	
-//
-//	@Test
-//	public void testnaam() {
-//		p.setNaam("auto");
-//		String result= p.getNaam();
-//		assertEquals("auto", result);
-//	}
-//	
-//
-//	@Test
-//	public void testnaam() {
-//		p.setNaam("auto");
-//		String result= p.getNaam();
-//		assertEquals("auto", result);
-//	}
+	@Test
+	public void testPrijs() {
+		p.setPrijs(100000);
+		double result= p.getPrijs();
+		assertEquals("fabrikant",100000.00, result);
+	}
 	
+	@Test
+	public void testomschrijving() {
+		p.setOmschrijving("een dure auto");
+		String result= p.getOmschrijving();
+		assertEquals("omschrijving","een dure auto", result);
+	}
+	@Test
+	public void testFabrikant() {
+		p.setFabrikant("Volkswagen Group");
+		String result= p.getFabrikant();
+		assertEquals("fabrikant","Volkswagen Group", result);
+	}
 }
