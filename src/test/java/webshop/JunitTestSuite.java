@@ -10,7 +10,7 @@ import org.junit.runners.Suite;
 
 // Add all testcases/classes
 @Suite.SuiteClasses({ 
-		MyUnitTest.class//, MyUnitTest2.class 
+		ProductTest.class//, MyUnitTest2.class 
 		})
 
 public class JunitTestSuite {
