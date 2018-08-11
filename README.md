@@ -1,3 +1,5 @@
+- Outdated: current version on https://github.com/graddus/Webshopapp 
+
 # webshop_test
 added this readme on github 
 
